@@ -1,0 +1,61 @@
+/*scss/base/_fonts.scss*/
+
+// font stacks
+$font-stack-common-1  : 'Bree-Thin', sans-serif; // weight: normal
+$font-stack-common-2  : 'Bree-Light', sans-serif; // weight: normal
+$font-stack-common-3  : 'Bree-Regular', sans-serif; // weight: normal
+
+$font-stack-headings  : 'Work Sans', sans-serif; // weights: 300,400,500,600,700
+
+body, .atomsWrap .component{
+  font-family: $font-stack-common-2;
+}
+
+p{
+  line-height: 1.5em;
+  .bigger {
+    line-height: 1.6em;
+  }
+}
+/*strong{
+  font-family: $font-stack-common-3;
+}*/
+
+sup {
+  top: -.8em;
+  font-size: .5em;
+}
+
+.font{
+  font-weight:normal;
+  margin-top:0;
+  span{
+    display:block;
+  }
+}
+
+.font-stack-common-1{
+  font-family: $font-stack-common-1;
+  font-weight: normal; 
+}
+.font-stack-common-2{
+  font-family: $font-stack-common-2;
+  font-weight: normal; 
+}
+.font-stack-common-3{
+  font-family: $font-stack-common-3;
+  font-weight: normal; 
+}
+
+.font-stack-headings-1{
+  font-family: $font-stack-headings;
+  font-weight: 300; 
+} // Work Sans light
+.font-stack-headings-2{
+  font-family: $font-stack-headings;
+  font-weight: 400; 
+} // Work Sans normal
+.font-stack-headings-3{
+  font-family: $font-stack-headings;
+  font-weight: 600; 
+} // Work Sans bold

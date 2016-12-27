@@ -1,0 +1,36 @@
+/*scss/base/_mixins.scss*/
+
+@mixin absolute-center{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+@mixin vertical-center{
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+@mixin svgIcon($iconName, $iconScale){
+    background-image: url("#{$get-path-to-assets}/final/svg/view/svg/sprite.view.svg");
+    display: block;
+    content: '';
+    @extend .svg-#{$iconName} !optional;
+    @extend .svg-#{$iconName}-dims !optional;
+    transform: scale($iconScale);
+    background-repeat: no-repeat;
+}
+// Utilisation :
+.arrow_down{
+    @include svgIcon(arrow_down, 1);
+}
+
+// Linear-gradient mixin
+// Doc : https://www.sitepoint.com/building-linear-gradient-mixin-sass
+@mixin linear-gradient($direction, $color-stops...) {
+    background: nth(nth($color-stops, 1), 1);
+    background: -webkit-linear-gradient(legacy-direction($direction), $color-stops);
+    background: linear-gradient($direction, $color-stops);
+}
+

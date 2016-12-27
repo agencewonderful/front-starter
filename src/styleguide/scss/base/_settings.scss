@@ -1,0 +1,15 @@
+/* scss/base/_settings.scss */
+
+// Breakpoints
+$tiny               : 544px !default;
+$small              : 768px !default;
+$medium             : 1024px !default;  //.container
+$large              : 1280px !default;
+$extra-large        : 1440px !default;  //.container-l
+$xx-large           : 1600px !default;  //.container-xl
+
+// grids
+$grid-gutter:  5rem !default;
+
+// Assets path
+$get-path-to-assets: "/web";

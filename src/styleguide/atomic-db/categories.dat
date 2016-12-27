@@ -1,14 +1,18 @@
 [
     {
-        "category": "modules",
-        "order": 1
+        "category": "base",
+        "order": 4
     },
     {
-        "category": "readme",
-        "order": 0
+        "category": "atoms",
+        "order": 5
     },
     {
-        "category": "jsExample",
-        "order": 2
+        "category": "molecules",
+        "order": 6
+    },
+    {
+        "category": "components",
+        "order": 7
     }
 ]

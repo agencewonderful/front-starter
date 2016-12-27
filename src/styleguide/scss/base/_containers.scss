@@ -1,0 +1,73 @@
+/*scss/base/_containers.scss*/
+
+// For Style guide
+#containers ~ .component{
+    width: 100%;
+    max-width: $xx-large;
+    .container, .container-s, .container-m, .container-l, .container-xl{
+        margin-bottom: 2rem;
+        padding: 1rem;
+        background: $lightgrey;
+        text-align: center;
+    }
+}
+
+
+// Container
+.container, .container-s, .container-m, .container-l, .container-xl{
+    position: relative;
+    display: block;
+    margin: 0 auto;
+    @media (max-width: $small){
+        padding-right:  5% !important;
+        padding-left:   5% !important;
+    }
+    @media (max-width: $small - 1){
+        width: 100% !important;
+        padding-right: 5%;
+        padding-left: 5%
+    }
+}
+.container, .maxi-size {
+    width: $medium;
+    @media (max-width: $medium){
+        position:       relative;
+        margin:         0;
+        width:          100%;
+        padding-right:  2rem;
+        padding-left:   2rem;
+    }
+}
+.container-s{
+    width: $tiny;
+}
+.container-m{
+    width: $large;
+    @media (max-width: $large){
+        position:       relative;
+        margin:         0;
+        width:          100% !important;
+        padding-right:  2rem;
+        padding-left:   2rem;
+    }
+}
+.container-l{
+    width: $extra-large;
+    @media (max-width: $extra-large){
+        position:       relative;
+        margin:         0;
+        width:          100% !important;
+        padding-right:  2rem;
+        padding-left:   2rem;
+    }
+}
+.container-xl{
+    width: $xx-large;
+    @media (max-width: $xx-large){
+        position:       relative;
+        margin:         0;
+        width:          100% !important;
+        padding-right:  2rem;
+        padding-left:   2rem;
+    }
+}
