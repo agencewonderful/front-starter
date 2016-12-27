@@ -1,0 +1,25 @@
+{
+  "site": {
+    "id": 1,
+    "title": "",
+    "url": "",
+    "assets_src": "\/src",
+    "assets_dest": "\/web",
+    "prefix": ".\/",
+    "env": "development"
+  },
+  "css": {
+    "app": [
+      ".\/src\/scss\/app.scss"
+    ]
+  },
+  "js": {
+    "critical": [
+      ".\/src\/js\/modernizr-custom.js"
+    ],
+    "app": [
+      ".\/src\/js\/vendor\/jQuery\/dist\/jquery.js",
+      ".\/src\/js\/testes6.js"
+    ]
+  }
+}
