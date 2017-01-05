@@ -73,8 +73,17 @@ var config = {
     },
     autoPrefixr: {},
     images: {
-        src: assets.site.prefix + assets.site.assets_src + '/images/*',
+        src: assets.site.prefix + assets.site.assets_src + '/images/**/*',
         dest: assets.site.prefix + assets.site.assets_dest + '/images/'
+    },
+    babel: {
+        plugins: [
+            'check-es2015-constants',
+            'transform-es2015-arrow-functions',
+            'transform-es2015-classes',
+            'transform-es2015-block-scoping',
+            'transform-es2015-spread'
+        ]
     }
 };
 
@@ -92,8 +101,8 @@ gulp.task('write-version', function () {
     return thisPipe;
 });
 
-gulp.task('svg-build', function () {
-    //console.log('svg-build');
+gulp.task('build-svg', function () {
+    //console.log('build-svg');
     var svgSrc = config.svgSprites.src,
         svgDest = config.svgSprites.dest;
     console.log('Getting svgs from ' + svgSrc);
@@ -101,6 +110,23 @@ gulp.task('svg-build', function () {
     return gulpSrc(svgSrc)
         .pipe(svgSprite(config.svgSprites.compilerOptions))
         .pipe(gulp.dest(svgDest));
+});
+
+gulp.task('watch-styleguide', function () {
+    sassWatch(getStyleGuideSassData());
+    jsWatch(getStyleGuideJsData());
+});
+gulp.task('build-styleguide-sass', function () {
+    //console.log('build-styleguide-sass');
+    var thisPipe = sassCompile(getStyleGuideSassData());
+    //console.log('end-build-styleguide-sass');
+    return thisPipe;
+});
+gulp.task('build-styleguide-js', function () {
+    //console.log('build-styleguide-js');
+    var thisPipe = jsCompile(getStyleGuideJsData());
+    //console.log('end-build-styleguide-js');
+    return thisPipe;
 });
 
 gulp.task('watch', function () {
@@ -130,13 +156,13 @@ gulp.task('build-others', function () {
     //console.log('end-build-others');
 });
 
-gulp.task('img-build', function () {
+gulp.task('build-img', function () {
         var imgSrc = config.images.src,
             imgDest = config.images.dest;
         console.log('Getting images from ' + imgSrc);
         console.log('And trying to write to ' + imgDest);
         return gulp.src(imgSrc)
-            .pipe(vinylPaths(del))
+            //.pipe(vinylPaths(del))
             .pipe(imagemin())
             .pipe(gulp.dest(imgDest));
     }
@@ -144,11 +170,15 @@ gulp.task('img-build', function () {
 
 
 gulp.task('test', function () {
-    console.log('test');
+    return gulpSrc('./src/js/app.js')
+        .pipe(babel({
+            presets: ['es2015']
+        }))
+        .pipe(gulp.dest('./web'));
 });
 
-gulp.task('build', gulpSequence('write-version', 'svg-build', 'img-build', 'build-others'));
-gulp.task('default', gulpSequence('build', 'watch'));
+gulp.task('build', gulpSequence('write-version', 'build-svg', /*'build-img',*/ ['build-styleguide-sass', 'build-styleguide-js'], 'build-others'));
+gulp.task('default', gulpSequence('build', ['watch-styleguide', 'watch']));
 
 //======================================================================================//
 // Functions
@@ -173,6 +203,24 @@ function getSassDatas() {
         sassDatas.push(sassData);
     }
     return sassDatas;
+}
+
+function getStyleGuideSassData() {
+    //Watch styleguide SCSS
+    var styleguideSassData = {
+        name: 'styleguide',
+        files: [path.resolve(assets.site.prefix + assets.site.assets_src + '/styleguide/scss/main.scss')],
+        watchers: [],
+        output: path.resolve(assets.site.prefix + assets.site.assets_src + '/styleguide/css') + '/',
+        destName: 'main.css'
+    }
+    for (var j in styleguideSassData.files) {
+        var deps = sassGraph.parseFile(styleguideSassData.files[j]);
+        for (var k in deps.index) {
+            styleguideSassData.watchers.push(k);
+        }
+    }
+    return styleguideSassData;
 }
 
 function sassWatch(sassData) {
@@ -238,6 +286,22 @@ function getJsDatas() {
     return jsDatas;
 }
 
+function getStyleGuideJsData() {
+    //Watch styleguide JS
+    var styleGuideJsFolder = assets.site.prefix + assets.site.assets_src + '/styleguide/js',
+        jsSrc = styleGuideJsFolder + '/*',
+        jsDest = styleGuideJsFolder+'/compiled';
+
+    var styleguideJsData = {
+        name: 'styleguide',
+        files: jsSrc,
+        watchers: jsSrc,
+        output: path.resolve(jsDest) + '/',
+        destName: 'styleguide.js'
+    }
+    return styleguideJsData;
+}
+
 function jsWatch(jsData) {
 
     return gulpSrc(jsData.files)
@@ -265,7 +329,7 @@ function jsCompile(jsData) {
     if (!isDev) {
         return gulpSrc(jsData.files)
             .pipe(sourcemaps.init())
-            .pipe(babel({presets: ['es2015']}))
+            .pipe(babel(config.babel))
             .pipe(concat(jsData.destName))
             .pipe(uglify())
             .pipe(sourcemaps.write('./'))
