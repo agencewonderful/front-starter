@@ -4,6 +4,9 @@ include("head.php");
 
 require "fllat.php";
 
+include_once $_SERVER['DOCUMENT_ROOT'].'/../../web/php/components/ComponentInterface.php';
+include_once $_SERVER['DOCUMENT_ROOT'].'/../../web/php/components/AbstractComponent.php';
+
 $components = new Fllat("components", "../atomic-db");
 $categories = new Fllat("categories", "../atomic-db");
 
